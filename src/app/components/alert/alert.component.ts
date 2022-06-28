@@ -1,5 +1,5 @@
 import { animate, sequence, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Alert, AlertService } from 'src/app/services/alert.service';
 
 @Component({

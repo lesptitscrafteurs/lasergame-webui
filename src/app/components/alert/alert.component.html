@@ -1,5 +1,16 @@
-<div *ngFor="let alert of alerts">
-    <alert [type]="alert.getType()" [dismissible]="alert.isDismissible()" (onClosed)="close(alert)">
-        <div [innerHtml]="alert.getMessage() | safeHtml"></div>
-    </alert>
+<div id="container" class="d-inline-block position-absolute m-3 bottom-right overflow-hidden">
+    <div [@anim]="'active'" *ngFor="let alert of alerts" class="alert" role="alert"
+        [class.alert-primary]="alert.getType()=='primary'"
+        [class.alert-secondary]="alert.getType()=='secondary'"
+        [class.alert-success]="alert.getType()=='success'"
+        [class.alert-danger]="alert.getType()=='danger'"
+        [class.alert-warning]="alert.getType()=='warning'"
+        [class.alert-info]="alert.getType()=='info'"
+        [class.alert-light]="alert.getType()=='light'"
+        [class.alert-dark]="alert.getType()=='dark'"
+        [class.alert-dismissible]="alert.isDismissible()"
+        role="alert">
+        <span div [innerHtml]="alert.getMessage() | safeHtml"></span>
+        <button *ngIf="alert.isDismissible()" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="close(alert)"></button>
+    </div>
 </div>

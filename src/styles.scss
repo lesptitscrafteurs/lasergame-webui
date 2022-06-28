@@ -1,1 +1,70 @@
-/* You can add global styles to this file, and also import other style files */
+@import './assets/scss/variables';
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.position-absolute.left { left: 0px; }
+.position-absolute.right { right: 0px; }
+.position-absolute.top { top: 0px; }
+.position-absolute.bottom { bottom: 0px; }
+
+.position-absolute.top-left { left: 0px; top: 0px; }
+.position-absolute.middle-left { left: 0px; top: 50%; transform: translateY(-50%); }
+.position-absolute.bottom-left { left: 0px; bottom: 0px; }
+
+.position-absolute.top-right { right: 0px; top: 0px; }
+.position-absolute.middle-right { right: 0px; top: 50%; transform: translateY(-50%); }
+.position-absolute.bottom-right { right: 0px; bottom: 0px; }
+
+.position-absolute.top-middle { left: 50%; top: 0px; transform: translateX(-50%); }
+.position-absolute.bottom-middle { left: 50%; bottom: 0px; transform: translateX(-50%); }
+.position-absolute.middle { left: 50%; top: 50%; transform: translateX(-50%); transform: translateY(-50%); }
+
+$opacity-level: (
+    5       0.05,
+    10      0.10,
+    15      0.15,
+    20      0.20,
+    25      0.25,
+    30      0.30,
+    35      0.35,
+    40      0.40,
+    45      0.45,
+    50      0.50,
+    55      0.55,
+    60      0.60,
+    65      0.65,
+    70      0.70,
+    75      0.75,
+    80      0.80,
+    85      0.85,
+    90      0.90,
+    95      0.95,
+);
+
+$color-names: (
+    'primary'   $primary,
+    'secondary' $secondary,
+    'success'   $success,
+    'danger'    $danger,
+    'warning'   $warning,
+    'info'      $info,
+    'light'     $light,
+    'dark'      $dark
+);
+
+@each $opacity in $opacity-level {
+    @each $color in $color-names {
+        .bg-#{nth($color, 1)}-#{nth($opacity, 1)} {
+            background-color: transparentize($color: nth($color, 2), $amount: nth($opacity, 2)) !important;
+        }
+    }
+}

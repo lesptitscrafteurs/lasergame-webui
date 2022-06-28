@@ -2,11 +2,11 @@ import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { AlertModule } from 'ngx-bootstrap/alert';
 import { catchError, map, Observable, ObservableInput, of } from 'rxjs';
 import { ConfigService } from './services/config.service';
 import { AlertService } from './services/alert.service';
@@ -23,9 +23,9 @@ function load (httpClient: HttpClient, config: ConfigService, alert: AlertServic
             resolve(true);
           }),
           catchError((x: { status: number }, caught: Observable<void>): ObservableInput<{}> => {
-            if (x.status !== 404) alert.danger ("Error lors du chargement du fichier de configuration ! Vérifiez que le fichier soit valide...", false);
-            else alert.danger ("Fichier de configuration introuvable !");
-            alert.warning (" Utilisation des valeurs de configuration par défaut...");
+            if (x.status !== 404) alert.danger ("Error lors du chargement du fichier de configuration ! Vérifiez que le fichier soit valide...");
+            else alert.danger ("Fichier de configuration introuvable !", true, 5000);
+            alert.warning (" Utilisation des valeurs de configuration par défaut...", true, 5000);
             resolve(true);
             return of({});
           })
@@ -43,9 +43,9 @@ function load (httpClient: HttpClient, config: ConfigService, alert: AlertServic
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    AlertModule.forRoot(),
   ],
   providers: [
     AlertService,

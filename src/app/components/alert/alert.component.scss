@@ -1,0 +1,7 @@
+@import '../../../assets/scss/variables';
+@import '../../../../node_modules/bootstrap/scss/bootstrap.scss';
+
+#container {
+    margin-bottom: 0 !important;
+    z-index: 9000;
+}

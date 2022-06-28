@@ -23,9 +23,9 @@ function load (httpClient: HttpClient, config: ConfigService, alert: AlertServic
             resolve(true);
           }),
           catchError((x: { status: number }, caught: Observable<void>): ObservableInput<{}> => {
-            if (x.status !== 404) alert.danger ("Error lors du chargement du fichier de configuration ! Vérifiez que le fichier soit valide...");
-            else alert.danger ("Fichier de configuration introuvable !", true, 5000);
-            alert.warning (" Utilisation des valeurs de configuration par défaut...", true, 5000);
+            if (x.status !== 404) alert.danger (`<span class="text-muted">app.module.ts : </span>Error lors du chargement du fichier de configuration ! Vérifiez que le fichier soit valide...`);
+            else alert.danger (`<span class="text-muted">app.module.ts : </span>Fichier de configuration introuvable !`, true, 5000);
+            alert.warning (`<span class="text-muted">app.module.ts : </span>Utilisation des valeurs de configuration par défaut...`, true, 5000);
             resolve(true);
             return of({});
           })

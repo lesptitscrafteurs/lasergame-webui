@@ -36,6 +36,8 @@ export class AlertComponent implements OnInit {
         if (AlertService.level(alert.getType()) < 2) {
           this.alerts.push (alert);
           if (alert.getTimer() != -1) setTimeout( () => this.close(alert), alert.getTimer());
+        } else {
+          console.debug (alert.getMessage());
         }
       }
     )

@@ -5,6 +5,8 @@ import { ConfigService } from './config.service';
 
 export enum MessageCmd {
   'HELLO' = 'HELLO',
+  'GET_GAME' = 'GETGAME',
+  'GAME' = 'GAME'
 }
 
 export enum HelloMessageParamsRole {
@@ -26,6 +28,7 @@ export class HelloMessageParams extends MessageParams {
 
 export class Message {
   public static HelloMessage : Message = new Message (MessageCmd.HELLO, new HelloMessageParams(HelloMessageParamsRole.WEBUI, "", ""));
+  public static GetGameMessage : Message = new Message (MessageCmd.GET_GAME, new MessageParams ());
 
   constructor (
     public cmd: string,
@@ -54,6 +57,7 @@ export class WebsocketService {
 
       this.ws.onmessage = (event) => {
         const message : Message = JSON.parse(event.data);
+        this.alertService.info(`<span class="text-muted">websocket.service.ts: </span>Nouveau message reçu de la part du serveur WebSocket : ${event.data}`);
         this.subject.next(message);
       }
   
@@ -70,7 +74,7 @@ export class WebsocketService {
       this.ws.onopen = (event) => {
         this.alertService.info (`<span class="text-muted">websocket.service.ts: </span>Connexion au serveur WebSocket établie. URL de connexion : ${this.configService.CONFIG.WS_URL}`);
         this.send( Message.HelloMessage );
-        // this.send( Message.StartInfoMessage );
+        this.send( Message.GetGameMessage );
         this.connected = true;
       }
     }

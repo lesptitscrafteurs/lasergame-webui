@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { WebsocketService } from './services/websocket.service';
+import { AlertService } from './services/alert.service';
+import { Message, MessageCmd, WebsocketService } from './services/websocket.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,21 @@ import { WebsocketService } from './services/websocket.service';
 export class AppComponent implements OnInit {
   title = 'lasergame-webui';
 
-  constructor (private wsService: WebsocketService) { }
+  constructor (
+    private wsService: WebsocketService,
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.wsService.connect();
+    this.wsService.getMessage().subscribe (
+      (message: Message) => {
+        if (message.cmd == MessageCmd.GAME) {
+          
+        }
+      }, (error) => {
+        this.alertService.danger (`Une erreur est survenue avec la lecture des messages en provenance du serveur WebSocket !`);
+        console.error(error);
+      }
+    )
   }
 }

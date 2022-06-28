@@ -6,11 +6,14 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { AlertModule } from 'ngx-bootstrap/alert';
 import { catchError, map, Observable, ObservableInput, of } from 'rxjs';
 import { ConfigService } from './services/config.service';
+import { AlertService } from './services/alert.service';
+import { AlertComponent } from './components/alert/alert.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 
-function load (httpClient: HttpClient, config: ConfigService) : (() => Promise<boolean>) {
+function load (httpClient: HttpClient, config: ConfigService, alert: AlertService) : (() => Promise<boolean>) {
   return () : Promise<boolean> => {
     return new Promise<boolean>((resolve: (a: boolean) => void) : void => {
       httpClient.get('./assets/config.json')
@@ -20,11 +23,9 @@ function load (httpClient: HttpClient, config: ConfigService) : (() => Promise<b
             resolve(true);
           }),
           catchError((x: { status: number }, caught: Observable<void>): ObservableInput<{}> => {
-            if (x.status !== 404) {
-              console.error ("Fichier de configuration introuvable !");
-              resolve(false);
-            }
-            console.error ("Error lors du chargement du fichier de configuration ! Utilisation des valeurs par défaut.");
+            if (x.status !== 404) alert.danger ("Error lors du chargement du fichier de configuration ! Vérifiez que le fichier soit valide...", false);
+            else alert.danger ("Fichier de configuration introuvable !");
+            alert.warning (" Utilisation des valeurs de configuration par défaut...");
             resolve(true);
             return of({});
           })
@@ -36,15 +37,18 @@ function load (httpClient: HttpClient, config: ConfigService) : (() => Promise<b
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AlertComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    TooltipModule.forRoot(),
+    AlertModule.forRoot(),
   ],
   providers: [
+    AlertService,
     {
       provide: APP_INITIALIZER,
       useFactory: load,
@@ -52,6 +56,7 @@ function load (httpClient: HttpClient, config: ConfigService) : (() => Promise<b
       deps: [
         HttpClient,
         ConfigService,
+        AlertService,
       ],
     }
   ],

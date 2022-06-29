@@ -8,7 +8,7 @@ import { Message, MessageCmd, WebsocketService } from './services/websocket.serv
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'lasergame-webui';
+  games : any[] = [];
 
   constructor (
     private wsService: WebsocketService,
@@ -26,5 +26,9 @@ export class AppComponent implements OnInit {
         console.error(error);
       }
     )
+  }
+
+  createNewGame () : void {
+    
   }
 }

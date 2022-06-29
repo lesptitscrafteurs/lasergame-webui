@@ -1,1 +1,5 @@
 <app-alert></app-alert>
+<div class="m-3 text-center">
+    <div *ngIf="!games || games.length == 0" class="text-white">Il n'y a pas de partie en cours pour le moment...</div>
+    <button class="btn btn-primary mt-3 px-5 text-secondary font-battlebot fs-4 ts-1" (click)="createNewGame()">Nouvelle partie</button>
+</div>

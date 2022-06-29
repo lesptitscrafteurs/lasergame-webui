@@ -41,7 +41,7 @@ export class Message {
 })
 export class WebsocketService {
   private subject : ReplaySubject<Message> = new ReplaySubject<Message> ();
-  private ws: WebSocket;
+  private ws: WebSocket        ;
   private connected: boolean = false;
   
   constructor(

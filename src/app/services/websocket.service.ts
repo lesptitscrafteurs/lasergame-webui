@@ -41,7 +41,7 @@ export class Message {
 })
 export class WebsocketService {
   private subject : ReplaySubject<Message> = new ReplaySubject<Message> ();
-  private ws: WebSocket        ;
+  private ws: WebSocket|null = null;
   private connected: boolean = false;
   
   constructor(
@@ -89,11 +89,15 @@ export class WebsocketService {
   }
 
   public send (message: Message) : void {
-    this.alertService.info (`<span class="text-muted">websocket.service.ts: </span>Envoi du message sur websocket '${JSON.stringify(message)}'`)
-    this.ws.send (JSON.stringify(message));
+    if (this.ws) {
+      this.alertService.info (`<span class="text-muted">websocket.service.ts: </span>Envoi du message sur websocket '${JSON.stringify(message)}'`);
+      this.ws.send (JSON.stringify(message));
+    } else {
+      this.alertService.danger (`<span class="text-muted">websocket.service.ts: </span>Impossible d'envoyer le message suivant au serveur websocket : '${JSON.stringify(message)}<br>La connexion n'est pas ouverte...'`);
+    }
   }
 
   public close () : void {
-    this.ws.close ();
+    if (this.ws) this.ws.close ();
   }
 }

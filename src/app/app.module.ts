@@ -12,6 +12,10 @@ import { ConfigService } from './services/config.service';
 import { AlertService } from './services/alert.service';
 import { AlertComponent } from './components/alert/alert.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
+import { ApiService } from './services/api.service';
+import { GameService } from './services/game.service';
+import { GameListComponent } from './components/game-list/game-list.component';
+import { GameDetailsComponent } from './components/game-details/game-details.component';
 
 function load (httpClient: HttpClient, config: ConfigService, alert: AlertService) : (() => Promise<boolean>) {
   return () : Promise<boolean> => {
@@ -39,7 +43,9 @@ function load (httpClient: HttpClient, config: ConfigService, alert: AlertServic
   declarations: [
     AppComponent,
     AlertComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    GameListComponent,
+    GameDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +55,8 @@ function load (httpClient: HttpClient, config: ConfigService, alert: AlertServic
   ],
   providers: [
     AlertService,
+    ApiService,
+    GameService,
     {
       provide: APP_INITIALIZER,
       useFactory: load,
@@ -56,7 +64,7 @@ function load (httpClient: HttpClient, config: ConfigService, alert: AlertServic
       deps: [
         HttpClient,
         ConfigService,
-        AlertService,
+        AlertService
       ],
     }
   ],
